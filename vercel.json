@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server-middleware/index.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.ts"
+    }
+  ],
+  "builds": [
+    {
+      "src": "server-middleware/**/.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "nuxt.config.ts",
+      "use": "@nuxtjs/vercel-builder",
+      "config": {
+        "serverFiles": ["server-middleware/**"],
+        "serverRoutes": [
+          {
+            "src": "/api/(.*)",
+            "dest": "server-middleware/index.ts"
+          }
+        ]
+      }
+    }
+  ]
+}

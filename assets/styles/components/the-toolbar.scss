@@ -1,0 +1,21 @@
+.the-toolbar {
+  display: flex;
+  padding: theme('gap.xs');
+  border-radius: 4px;
+  margin-bottom: theme('gap.md');
+  flex-flow: column;
+  gap: 4px;
+  &__search-button {
+    min-width: 80px;
+  }
+
+  &__search-input {
+    min-width: 220px;
+    width: auto;
+  }
+
+  @include bp('sm') {
+    flex-direction: row;
+    gap: 8px;
+  }
+}

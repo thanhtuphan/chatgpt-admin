@@ -1,0 +1,17 @@
+.the-button-social {
+  border: 1px solid theme('colors.black');
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::v-deep > span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  & + & {
+    margin: 20px 0 0;
+  }
+}

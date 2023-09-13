@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Base
+@import 'base/mixins';
+@import 'base/variables';
+@import 'base/reset';
+
+// Animation
+@import 'anim/layout';
+@import 'anim/page';
+@import 'anim/fade';
+@import 'anim/bounce';

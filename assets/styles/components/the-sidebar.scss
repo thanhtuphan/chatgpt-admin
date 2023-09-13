@@ -1,0 +1,23 @@
+.the-sidebar {
+  width: theme('sidebar.width');
+  border-right: 1px solid theme('colors.gray.300');
+  position: fixed;
+  top: 0;
+  left: calc(theme('sidebar.width') * -1);
+  bottom: 0;
+  background-color: theme('colors.white');
+  transition: left 0.3s ease;
+  z-index: 51;
+
+  &__logo {
+    text-align: center;
+    padding: 10px;
+    img {
+      width: 150px;
+    }
+  }
+
+  &.is-active {
+    left: 0;
+  }
+}

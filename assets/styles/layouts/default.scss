@@ -1,0 +1,16 @@
+.default-layout {
+  min-height: 100vh;
+
+  &__main {
+    padding-top: theme('header.height');
+    transition: margin-left 0.3s ease;
+
+    &.is-active {
+      margin-left: theme('sidebar.width');
+    }
+  }
+
+  &__content {
+    padding: theme('gap.md');
+  }
+}

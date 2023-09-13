@@ -1,0 +1,9 @@
+.the-header-user-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &__name {
+    margin-left: theme('gap.sm');
+  }
+}

@@ -1,0 +1,22 @@
+.the-sidebar-menu-item {
+  a {
+    display: flex;
+    align-items: center;
+    padding: theme('gap.sm') theme('gap.md');
+
+    &:hover {
+      background-color: theme('colors.gray.100');
+    }
+
+    span {
+      margin-left: theme('gap.sm');
+      font-size: 14px;
+    }
+  }
+
+  &.is-active {
+    a {
+      background-color: theme('colors.gray.100');
+    }
+  }
+}

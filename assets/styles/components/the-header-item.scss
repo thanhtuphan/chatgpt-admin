@@ -1,0 +1,8 @@
+.the-header-item {
+  display: flex;
+  align-items: center;
+
+  & + & {
+    margin-left: theme('gap.md');
+  }
+}

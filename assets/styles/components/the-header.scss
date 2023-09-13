@@ -1,0 +1,22 @@
+.the-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  border-bottom: 1px solid theme('colors.gray.300');
+  transition: left 0.3s ease;
+
+  &__inner {
+    height: theme('header.height');
+    display: flex;
+    align-items: center;
+    padding: 0 theme('gap.md');
+    color: theme('colors.black');
+    background-color: theme('colors.white');
+  }
+
+  &.is-active {
+    left: theme('sidebar.width');
+  }
+}

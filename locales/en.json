@@ -1,0 +1,202 @@
+{
+  "homePage": {
+    "title": "Home"
+  },
+  "companyPage": {
+    "title": "Companies",
+    "content": {
+      "name": "Name",
+      "nameEnglish": "Name English",
+      "stockCode": "Stock Code",
+      "industry": "Industry",
+      "latestReports": "Latest Reported",
+      "capital": "Capital",
+      "corporateNumber": "Corporate Number"
+    }
+  },
+  "companyDetailPage": {
+    "title": "Detail Company",
+    "content": {
+      "nameDocument": "Name Document",
+      "reportingPeriod": "Reporting Period",
+      "dateSubmit": "Date Submit",
+      "report": "Report"
+    }
+  },
+  "chatPage": {
+    "title": "Chat History"
+  },
+  "settingPage": {
+    "title": "Setting Chat"
+  },
+  "loginPage": {
+    "title": "Login",
+    "content": {
+      "loginSocial": "Login Social"
+    }
+  },
+  "authCallbackPage": {
+    "title": "Redirecting...",
+    "content": {
+      "redirect": "Redirecting..."
+    }
+  },
+  "common": {
+    "notify": {
+      "loginSuccess": {
+        "title": "Login successfully",
+        "message": "Hi {name} come back!"
+      },
+      "notPermission": {
+        "message": "You do not have access.",
+        "title": "Error"
+      }
+    },
+    "actions": {
+      "login": "Login",
+      "logout": "Logout",
+      "loginWithGoogle": "Login with Google",
+      "loginWithTwitter": "Login with Twitter",
+      "loginWithFacebook": "Login with Facebook",
+      "edit": "Edit",
+      "remove": "Remove",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "ok": "OK",
+      "save": "Save",
+      "newTag": "+ New Tag",
+      "deactive": "Deactive",
+      "add": "Add New",
+      "inviteAdmin": "Invite admin",
+      "createUser": "Create user",
+      "create": "Create",
+      "active": "Active",
+      "product": "Product",
+      "search": "Search",
+      "report": "Report"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password",
+      "tags": "Tags",
+      "title": "Title",
+      "description": "Description",
+      "price": "Price",
+      "stock": "Stock",
+      "media": "Media",
+      "stockRemain": "Stock Remain",
+      "content": "Content",
+      "updatedAt": "Updated At",
+      "createdAt": "Created At",
+      "role": "Role",
+      "contentEnglish": "Content English"
+    },
+    "validate": {
+      "required": "{field} is required",
+      "email": "Email invalidate",
+      "requiredSelected": "Please select the {field}!"
+    },
+    "sidebar": {
+      "menus": {
+        "dashboard": "Dashboard",
+        "companyManagement": "Company Management",
+        "chatHistory": "Chat History",
+        "settingChat": "Setting Chat"
+      }
+    },
+    "header": {
+      "userInfo": {
+        "profile": "Profile",
+        "logout": "Logout"
+      }
+    },
+    "table": {
+      "action": "Action"
+    },
+    "confirm": {
+      "delete": {
+        "title": "Warning",
+        "message": "Do you really want to delete?"
+      }
+    },
+    "errors": {
+      "pageNotFound": "Page not found."
+    },
+    "message": {
+      "deleteSuccess": "Delete successfully.",
+      "editSuccess": "Edit successfully.",
+      "addSuccess": "Add successfully."
+    },
+    "placeholderFields": {
+      "tableSearch": "What do you want to search?",
+      "startPeriod": "Start date of Period",
+      "endPeriod": "End date of Period",
+      "industrySelect": "Select Submitter Industry",
+      "documentSelect": "Select Name Document",
+      "countrySelect": "Select Country"
+    }
+  },
+  "noticesPage": {
+    "title": "Notices",
+    "content": {
+      "content": "Content",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "contentEnglish": "Content English"
+    }
+  },
+  "profilePage": {
+    "title": "Profile"
+  },
+  "productsPage": {
+    "title": "Products",
+    "content": {
+      "title": "Title",
+      "tags": "Tags",
+      "price": "Price",
+      "quantity": "Quantity",
+      "thumbnail": "Thumbnail",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "quantityValue": "{remain} / {total}",
+      "createdBy": "Created By"
+    }
+  },
+  "adminPage": {
+    "title": "Admin Management",
+    "content": {
+      "email": "Email",
+      "role": "Role",
+      "lastSignInAt": "Last Sign In At",
+      "inviteAdminConfirm": {
+        "title": "Invite admin user"
+      }
+    }
+  },
+  "usersPage": {
+    "title": "Users",
+    "content": {
+      "name": "Name",
+      "email": "Email",
+      "country": "Country",
+      "avatar": "Avatar",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "removeAt": "Remove At",
+      "userId": "User ID",
+      "social": "Social Network"
+    }
+  },
+  "productsDetailEditPage": {
+    "title": "Edit Product"
+  },
+  "noticesDetailEditPage": {
+    "title": "Edit Notice"
+  },
+  "noticesCreatePage": {
+    "title": "Create Notice"
+  },
+  "adminCreatePage": {
+    "title": "Create Admin User"
+  }
+}
