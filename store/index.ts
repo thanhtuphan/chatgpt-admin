@@ -21,6 +21,6 @@ export const actions: ActionTree<RootState, RootState> = {
     await this.$supabase.auth.signOut()
     commit('auth/SET_USER', null)
     this.$cookies.remove(ACCESS_TOKEN_KEY)
-    this.$router.push(RoutePage.LOGIN)
+    // this.$router.push(RoutePage.LOGIN)
   },
 }

@@ -14,19 +14,21 @@ const superAdmin: Middleware = async ({
   )
 
   if (!user) {
-    return redirect({
-      path: RoutePage.LOGIN,
-      query: {
-        redirect: route.fullPath,
-      },
-    })
+    console.log('super')
+
+    // return redirect({
+    //   path: RoutePage.LOGIN,
+    //   query: {
+    //     redirect: route.fullPath,
+    //   },
+    // })
   }
 
-  const hasPermission = user.app_metadata.role === Role.SuperAdmin
+  // const hasPermission = user.app_metadata.role === Role.SuperAdmin
 
-  if (!hasPermission) {
-    return redirect(RoutePage.ADMIN)
-  }
+  // if (!hasPermission) {
+  //   return redirect(RoutePage.ADMIN)
+  // }
 }
 
 export default superAdmin

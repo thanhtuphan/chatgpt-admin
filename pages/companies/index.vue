@@ -128,11 +128,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
-import { CompanyModel } from '@/app/company/company.model'
+import { UserModel } from '@/app/user/user.model'
 import { SocialProvider } from '~/common/enums'
 import UserService from '~/app/user/user.service'
-import ProductService from '~/app/product/product.service'
-import CompanyService from '~/app/company/company.service'
 
 interface ValueProps {
   value: string
@@ -165,7 +163,7 @@ interface DataProps {
     column: string
     option: boolean
   } | null
-  selected: Array<CompanyModel>
+  selected: Array<UserModel>
   optionsSelected: Array<ValueProps>
   optionsCountry: Array<ValueProps>
   pickerOptions: {
@@ -290,7 +288,7 @@ export default Vue.extend({
   },
 
   created() {
-    this.onFetch()
+    // this.onFetch()
     // this.onFetchCountry()
   },
 
@@ -298,14 +296,12 @@ export default Vue.extend({
     async onFetch() {
       try {
         this.loading = true
-        const { count, data } = await CompanyService.all({
+        const { count, data } = await UserService.all({
           page: this.pagination.page,
           limit: this.ConstantsCommon.RECORD_PER_PAGE,
           sort: this.sort,
           filters: this.filters,
         })
-
-        console.log(data)
 
         this.data = data
         this.pagination.total = count
@@ -374,7 +370,7 @@ export default Vue.extend({
       this.onFetch()
     },
 
-    handleSelectionChange(selection: Array<CompanyModel>) {
+    handleSelectionChange(selection: Array<ProductUser>) {
       this.selected = selection
     },
 

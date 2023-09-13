@@ -10,6 +10,10 @@ export const USERS = '/users'
 
 export const USERS_DETAIL = '/users/1'
 
+export const COMPANIES = '/companies'
+
+export const COMPANIES_DETAIL = '/companies/1'
+
 export const ADMIN = '/admin'
 
 export const NOTICES = '/notices'

@@ -11,9 +11,10 @@ const guest: Middleware = async ({
     $cookies.get(ConstantsCommon.ACCESS_TOKEN_KEY)
   )
 
-  if (user) {
-    redirect(RoutePage.HOME)
-  }
+  // if (user) {
+  //   console.log('guest')
+  //   redirect(RoutePage.HOME)
+  // }
 }
 
 export default guest
