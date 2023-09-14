@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex'
-import { RoutePage } from '~/common/constants'
+// import { RoutePage } from '~/common/constants'
 import { ACCESS_TOKEN_KEY } from '~/common/constants/common'
 
 interface StateProps {}

@@ -32,13 +32,12 @@
 -->
         </el-select>
       </template>
-      <template #toolbar-action>
+      <!-- <template #toolbar-action>
         <el-button
           v-if="selected.length"
           class="the-toolbar__remove-button"
           type="danger"
           size="small"
-          @click="onRemoveMultiple"
         >
           {{ $t('common.actions.remove') }}
         </el-button>
@@ -47,17 +46,10 @@
           class="the-toolbar__add-button"
           type="success"
           size="small"
-          @click="onAdd"
         >
           {{ $t('common.actions.add') }}
         </el-button>
-      </template>
-      <el-table-column
-        fixed="left"
-        type="selection"
-        width="55"
-        align="center"
-      />
+      </template> -->
       <el-table-column
         :label="$t('companyPage.content.name')"
         min-width="250"
@@ -72,8 +64,9 @@
       />
       <el-table-column
         :label="$t('companyPage.content.stockCode')"
-        min-width="100"
+        min-width="130"
         prop="stock_code"
+        sortable="custom"
       />
       <el-table-column
         :label="$t('companyPage.content.industry')"
@@ -110,14 +103,11 @@
       <el-table-column
         fixed="right"
         :label="$t('common.table.action')"
-        width="180"
+        width="85"
       >
         <template slot-scope="scope">
           <el-button type="warning" size="small" @click="onDetail">{{
-            $t('common.actions.report')
-          }}</el-button>
-          <el-button type="danger" size="small">{{
-            $t('common.actions.remove')
+            $t('common.actions.detail')
           }}</el-button>
         </template>
       </el-table-column>
@@ -131,8 +121,8 @@ import { MetaInfo } from 'vue-meta'
 import { CompanyModel } from '@/app/company/company.model'
 import { SocialProvider } from '~/common/enums'
 import UserService from '~/app/user/user.service'
-import ProductService from '~/app/product/product.service'
-import CompanyService from '~/app/company/company.service'
+// import ProductService from '~/app/product/product.service'
+// import CompanyService from '~/app/company/company.service'
 
 interface ValueProps {
   value: string
@@ -180,56 +170,7 @@ export default Vue.extend({
 
   data(): DataProps {
     return {
-      data: [
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-      ],
+      data: [],
 
       loading: false,
       pagination: {
@@ -298,7 +239,7 @@ export default Vue.extend({
     async onFetch() {
       try {
         this.loading = true
-        const { count, data } = await CompanyService.all({
+        const { count, data } = await UserService.all({
           page: this.pagination.page,
           limit: this.ConstantsCommon.RECORD_PER_PAGE,
           sort: this.sort,
@@ -316,23 +257,23 @@ export default Vue.extend({
       }
     },
 
-    async onFetchCountry() {
-      try {
-        const listCountry = await UserService.getAllCountry()
-        const uniqueCountries = Array.from(
-          new Set(listCountry?.map((item: { country: string }) => item.country))
-        )
+    // async onFetchCountry() {
+    //   try {
+    //     const listCountry = await UserService.getAllCountry()
+    //     const uniqueCountries = Array.from(
+    //       new Set(listCountry?.map((item: { country: string }) => item.country))
+    //     )
 
-        this.optionsCountry = uniqueCountries?.map((item) => {
-          return {
-            value: item,
-            label: item,
-          }
-        })
-      } catch (error: any) {
-        this.$message.error(error.message)
-      }
-    },
+    //     this.optionsCountry = uniqueCountries?.map((item) => {
+    //       return {
+    //         value: item,
+    //         label: item,
+    //       }
+    //     })
+    //   } catch (error: any) {
+    //     this.$message.error(error.message)
+    //   }
+    // },
 
     onPageChange(page: number) {
       this.pagination.page = page

@@ -73,7 +73,7 @@
       "active": "Active",
       "product": "Product",
       "search": "Search",
-      "report": "Report"
+      "detail": "Detail"
     },
     "fields": {
       "email": "Email",
@@ -131,7 +131,7 @@
       "tableSearch": "What do you want to search?",
       "startPeriod": "Start date of Period",
       "endPeriod": "End date of Period",
-      "industrySelect": "Select Submitter Industry",
+      "industrySelect": "Select Industry",
       "documentSelect": "Select Name Document",
       "countrySelect": "Select Country"
     }
