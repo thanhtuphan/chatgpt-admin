@@ -1,7 +1,24 @@
 <template>
   <div class="users-page">
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item class="tw-text-#8a65e3" :to="{ path: '/' }"
+        >Dashboard</el-breadcrumb-item
+      >
+      <el-breadcrumb-item :to="{ path: '/companies' }"
+        >Company Management</el-breadcrumb-item
+      >
+    </el-breadcrumb>
+    <h1 class="tw-text-4xl tw-font-semibold tw-mt-[10px] tw-mb-[30px]">
+      Company List
+    </h1>
+    <div class="tw-mb-[15px]">
+      <span>All (575)</span>
+      <span class="tw-mx-[30px]">Listed (475)</span>
+      <span>Unlisted (100)</span>
+    </div>
     <the-table
       v-loading="loading"
+      class="tw-mt-[20px]"
       :data="data"
       :pagination="pagination"
       :default-sort="defaultSort"
@@ -21,43 +38,15 @@
           clearable
           :placeholder="$t('common.placeholderFields.industrySelect')"
         >
-          <!--
- <el-option
-            v-for="item in optionsSelected"
+          <el-option
+            v-for="item in optionsIndustry"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           >
-</el-option>
--->
+          </el-option>
         </el-select>
       </template>
-      <template #toolbar-action>
-        <el-button
-          v-if="selected.length"
-          class="the-toolbar__remove-button"
-          type="danger"
-          size="small"
-          @click="onRemoveMultiple"
-        >
-          {{ $t('common.actions.remove') }}
-        </el-button>
-        <el-button
-          v-else
-          class="the-toolbar__add-button"
-          type="success"
-          size="small"
-          @click="onAdd"
-        >
-          {{ $t('common.actions.add') }}
-        </el-button>
-      </template>
-      <el-table-column
-        fixed="left"
-        type="selection"
-        width="55"
-        align="center"
-      />
       <el-table-column
         :label="$t('companyPage.content.name')"
         min-width="250"
@@ -72,7 +61,7 @@
       />
       <el-table-column
         :label="$t('companyPage.content.stockCode')"
-        min-width="100"
+        min-width="130"
         prop="stock_code"
       />
       <el-table-column
@@ -88,37 +77,44 @@
       />
       <el-table-column
         :label="$t('companyPage.content.latestReports')"
-        min-width="150"
+        min-width="180"
       >
         <template slot-scope="scope">
-          <el-tag
+          <el-button
             v-for="tag in tags"
             :key="tag.name"
-            :type="tag.type"
-            class="tw-mr-1"
+            plain
+            :type="
+              tag.name === 'CSV'
+                ? 'success'
+                : tag.name === 'PDF'
+                ? 'danger'
+                : ''
+            "
+            class="tw-mr-1 tw-h-[37px]"
+            @click="handleClick(scope.row.edinet_code, tag.name)"
           >
             {{ tag.name }}
-          </el-tag>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column
         :label="$t('companyPage.content.corporateNumber')"
         min-width="180"
         prop="submitter_corporate_number"
-        sortable="custom"
       />
       <el-table-column
         fixed="right"
         :label="$t('common.table.action')"
-        width="180"
+        width="85"
       >
         <template slot-scope="scope">
-          <el-button type="warning" size="small" @click="onDetail">{{
-            $t('common.actions.report')
-          }}</el-button>
-          <el-button type="danger" size="small">{{
-            $t('common.actions.remove')
-          }}</el-button>
+          <el-button
+            type="warning"
+            size="small"
+            @click="onDetail(scope.row.edinet_code)"
+            >{{ $t('common.actions.detail') }}</el-button
+          >
         </template>
       </el-table-column>
     </the-table>
@@ -128,9 +124,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
-import { UserModel } from '@/app/user/user.model'
+import { CompanyModel } from '~/app/company/company.model'
 import { SocialProvider } from '~/common/enums'
-import UserService from '~/app/user/user.service'
+import CompanyService from '~/app/company/company.service'
+import { ReportModel } from '~/app/report/report.model'
+import ReportService from '~/app/report/report.service'
+
+// import ProductService from '~/app/product/product.service'
+// import CompanyService from '~/app/company/company.service'
 
 interface ValueProps {
   value: string
@@ -163,14 +164,15 @@ interface DataProps {
     column: string
     option: boolean
   } | null
-  selected: Array<UserModel>
+  selected: Array<CompanyModel>
   optionsSelected: Array<ValueProps>
-  optionsCountry: Array<ValueProps>
+  optionsIndustry: Array<ValueProps>
   pickerOptions: {
     disabledDate: (time: Date) => boolean
   }
   filters: FilterProps
   tags: Array<tagProps>
+  listReport: any
 }
 
 export default Vue.extend({
@@ -178,56 +180,7 @@ export default Vue.extend({
 
   data(): DataProps {
     return {
-      data: [
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-        {
-          proposer_name: 'ＮＥＣネッツエスアイ株式会社',
-          proposer_name_english: 'GAKKEN  HOLDINGS CO., LTD.',
-          stock_code: 1973,
-          submitter_industry: '情報・通信業',
-          capital: 13122,
-          submitter_corporate_number: 3120001077023,
-        },
-      ],
+      data: [],
 
       loading: false,
       pagination: {
@@ -259,7 +212,7 @@ export default Vue.extend({
         },
       ],
 
-      optionsCountry: [],
+      optionsIndustry: [],
       pickerOptions: {
         disabledDate(time: Date) {
           return time.getTime() > Date.now()
@@ -278,6 +231,8 @@ export default Vue.extend({
         { name: 'CSV', type: 'success' },
         { name: 'PDF', type: 'success' },
       ],
+
+      listReport: [],
     }
   },
 
@@ -288,15 +243,15 @@ export default Vue.extend({
   },
 
   created() {
-    // this.onFetch()
-    // this.onFetchCountry()
+    this.onFetch()
+    // this.onFetchIndustry()
   },
 
   methods: {
     async onFetch() {
       try {
         this.loading = true
-        const { count, data } = await UserService.all({
+        const { count, data } = await CompanyService.all({
           page: this.pagination.page,
           limit: this.ConstantsCommon.RECORD_PER_PAGE,
           sort: this.sort,
@@ -312,23 +267,42 @@ export default Vue.extend({
       }
     },
 
-    async onFetchCountry() {
+    async findReport(id: any) {
       try {
-        const listCountry = await UserService.getAllCountry()
-        const uniqueCountries = Array.from(
-          new Set(listCountry?.map((item: { country: string }) => item.country))
-        )
+        const report = await ReportService.findOne(id)
 
-        this.optionsCountry = uniqueCountries?.map((item) => {
-          return {
-            value: item,
-            label: item,
-          }
-        })
+        console.log(report)
+
+        return {
+          report,
+        }
       } catch (error: any) {
         this.$message.error(error.message)
       }
     },
+
+    // async onFetchIndustry() {
+    //   try {
+    //     const listIndustry = await CompanyService.getAllIndustry()
+
+    //     // console.log(listIndustry)
+
+    //     const uniqueIndustry = Array.from(
+    //       new Set(listIndustry?.map((item: any) => item.submitter_industry))
+    //     )
+
+    //     // console.log(uniqueIndustry)
+
+    //     this.optionsIndustry = uniqueIndustry?.map((item) => {
+    //       return {
+    //         value: item,
+    //         label: item,
+    //       }
+    //     })
+    //   } catch (error: any) {
+    //     this.$message.error(error.message)
+    //   }
+    // },
 
     onPageChange(page: number) {
       this.pagination.page = page
@@ -370,15 +344,8 @@ export default Vue.extend({
       this.onFetch()
     },
 
-    handleSelectionChange(selection: Array<ProductUser>) {
+    handleSelectionChange(selection: Array<CompanyModel>) {
       this.selected = selection
-    },
-
-    onProduct(id: string) {
-      this.$router.push({
-        path: this.RoutePage.PRODUCTS,
-        query: { user: id },
-      })
     },
 
     handlePickDate(value: Date[]) {
@@ -387,8 +354,17 @@ export default Vue.extend({
       }
     },
 
-    onDetail() {
-      this.$router.push(this.$format(this.RoutePage.USERS_DETAIL))
+    onDetail(id: string) {
+      this.$router.push(
+        this.$format(this.RoutePage.COMPANIES_DETAIL_EDIT, { id })
+      )
+    },
+
+    handleClick(id: any, type: any) {
+      console.log('hahah', id, type)
+      this.findReport(id).then((data) => {
+        console.log('data tra ve ..............', data)
+      })
     },
 
     handleSubmit(value: string) {
@@ -401,5 +377,5 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/pages/users/index.scss';
+@import '@/assets/styles/pages/companies/index.scss';
 </style>

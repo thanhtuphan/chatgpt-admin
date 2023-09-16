@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-page">{{ $t('profilePage.title') }}</div>
+  <div>chat setting</div>
 </template>
 
 <script lang="ts">
@@ -7,16 +7,15 @@ import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
 
 export default Vue.extend({
-  name: 'ProfilePage',
+  name: 'HistoryChatpage',
 
   head(): MetaInfo {
     return {
-      title: this.$t('profilePage.title').toString(),
+      title: this.$t('companyPage.title').toString(),
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/pages/profile/index.scss';
 </style>

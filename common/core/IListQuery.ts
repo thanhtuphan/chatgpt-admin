@@ -7,7 +7,7 @@ export interface IListQuery {
   } | null
   filters?: {
     search: string
-    filtersByUser?: string | (string | null)[]
+    filtersByCompany?: string
     valueSelected?: string[]
     valueSelectedCountry?: string[]
     valueDatePicker?: Date[]

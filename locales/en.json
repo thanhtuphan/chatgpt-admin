@@ -5,11 +5,11 @@
   "companyPage": {
     "title": "Companies",
     "content": {
-      "name": "Name",
-      "nameEnglish": "Name English",
+      "name": "Company Name",
+      "nameEnglish": "Company English Name",
       "stockCode": "Stock Code",
       "industry": "Industry",
-      "latestReports": "Latest Reported",
+      "latestReports": "Latest Report",
       "capital": "Capital",
       "corporateNumber": "Corporate Number"
     }
@@ -17,7 +17,7 @@
   "companyDetailPage": {
     "title": "Detail Company",
     "content": {
-      "nameDocument": "Name Document",
+      "nameDocument": "Report Name",
       "reportingPeriod": "Reporting Period",
       "dateSubmit": "Date Submit",
       "report": "Report"
@@ -128,9 +128,9 @@
       "addSuccess": "Add successfully."
     },
     "placeholderFields": {
-      "tableSearch": "What do you want to search?",
-      "startPeriod": "Start date of Period",
-      "endPeriod": "End date of Period",
+      "tableSearch": "Search Name, Stock Code",
+      "startPeriod": "Start date Submit",
+      "endPeriod": "End date Submit",
       "industrySelect": "Select Industry",
       "documentSelect": "Select Name Document",
       "countrySelect": "Select Country"
@@ -176,7 +176,7 @@
   "usersPage": {
     "title": "Users",
     "content": {
-      "name": "Name",
+      "name": "Company Name",
       "email": "Email",
       "country": "Country",
       "avatar": "Avatar",

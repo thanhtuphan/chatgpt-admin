@@ -95,5 +95,5 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/components/the-table.scss';
-@import '@/assets/styles/pages/users/index.scss';
+@import '@/assets/styles/pages/companies/index.scss';
 </style>

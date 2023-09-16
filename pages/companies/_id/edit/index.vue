@@ -1,5 +1,14 @@
 <template>
   <div class="users-page">
+    <el-breadcrumb class="tw-mb-[20px]" separator="/">
+      <el-breadcrumb-item :to="{ path: '/' }">Dashboard</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/companies' }"
+        >Company Management</el-breadcrumb-item
+      >
+      <el-breadcrumb-item :to="{ path: '/companies' }"
+        >PCI Holdings, Inc.</el-breadcrumb-item
+      >
+    </el-breadcrumb>
     <the-table
       v-loading="loading"
       :data="data"
@@ -11,26 +20,6 @@
       @selection-change="handleSelectionChange"
     >
       <template #toolbar-filter>
-        <el-select
-          v-model="filters.valueSelected"
-          class="the-toolbar__social-select"
-          size="small"
-          multiple
-          collapse-tags
-          filterable
-          clearable
-          :placeholder="$t('common.placeholderFields.documentSelect')"
-        >
-          <!--
- <el-option
-            v-for="item in optionsSelected"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-</el-option>
--->
-        </el-select>
         <el-date-picker
           v-model="filters.valueDatePicker"
           class="the-toolbar__date-picker"
@@ -49,7 +38,6 @@
           class="the-toolbar__remove-button"
           type="danger"
           size="small"
-          @click="onRemoveMultiple"
         >
           {{ $t('common.actions.remove') }}
         </el-button>
@@ -58,7 +46,6 @@
           class="the-toolbar__add-button"
           type="success"
           size="small"
-          @click="onAdd"
         >
           {{ $t('common.actions.add') }}
         </el-button>
@@ -71,43 +58,45 @@
       />
       <el-table-column
         :label="$t('companyDetailPage.content.nameDocument')"
-        min-width="250"
+        min-width="300"
         prop="submitted_document"
         sortable="custom"
       />
       <el-table-column
         :label="$t('companyDetailPage.content.reportingPeriod')"
-        min-width="180"
+        min-width="320"
         prop="reporting_period"
-        sortable="custom"
       />
       <el-table-column
         :label="$t('companyDetailPage.content.dateSubmit')"
-        min-width="120"
+        min-width="180"
         prop="date_time_submit"
+        sortable="custom"
       />
       <el-table-column
         :label="$t('companyDetailPage.content.report')"
-        min-width="150"
+        min-width="180"
       >
-        <template slot-scope="scope">
-          <el-tag
-            v-for="tag in tags"
-            :key="tag.name"
-            :type="tag.type"
-            class="tw-mr-1"
-          >
-            {{ tag.name }}
-          </el-tag>
-        </template>
+        <el-button
+          v-for="tag in tags"
+          :key="tag.name"
+          plain
+          :type="
+            tag.name === 'CSV' ? 'success' : tag.name === 'PDF' ? 'danger' : ''
+          "
+          class="tw-mr-1 tw-h-[37px]"
+          @click="handleClick(scope.row.edinet_code, tag.name)"
+        >
+          {{ tag.name }}
+        </el-button>
       </el-table-column>
       <el-table-column
         fixed="right"
         :label="$t('common.table.action')"
-        width="180"
+        width="170"
       >
         <template slot-scope="scope">
-          <el-button type="warning" size="small" @click="onDetail">{{
+          <el-button type="warning" size="small">{{
             $t('common.actions.edit')
           }}</el-button>
           <el-button type="danger" size="small">{{
@@ -122,9 +111,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
-import { UserModel } from '@/app/user/user.model'
+import { ReportModel } from '~/app/report/report.model'
 import { SocialProvider } from '~/common/enums'
-import UserService from '~/app/user/user.service'
+import ReportService from '~/app/report/report.service'
 
 interface ValueProps {
   value: string
@@ -138,6 +127,7 @@ interface tagProps {
 
 interface FilterProps {
   search: string
+  filtersByCompany?: string
   valueSelected: string[]
   valueSelectedCountry: string[]
   valueDatePicker: Date[]
@@ -157,7 +147,7 @@ interface DataProps {
     column: string
     option: boolean
   } | null
-  selected: Array<UserModel>
+  selected: Array<ReportModel>
   optionsSelected: Array<ValueProps>
   optionsCountry: Array<ValueProps>
   pickerOptions: {
@@ -172,43 +162,7 @@ export default Vue.extend({
 
   data(): DataProps {
     return {
-      data: [
-        {
-          date_time_submit: '2023-08-07 13:33:00',
-          submitted_document: '有価証券報告書－第91期(2022/04/01－2023/03/31)',
-          reporting_period: '第91期(2022/04/01－2023/03/31)',
-        },
-        {
-          date_time_submit: '2023-08-07 13:33:00',
-          submitted_document: '有価証券報告書－第91期(2022/04/01－2023/03/31)',
-          reporting_period: '第91期(2022/04/01－2023/03/31)',
-        },
-        {
-          date_time_submit: '2023-08-07 13:33:00',
-          submitted_document: '有価証券報告書－第91期(2022/04/01－2023/03/31)',
-          reporting_period: '第91期(2022/04/01－2023/03/31)',
-        },
-        {
-          date_time_submit: '2023-08-07 13:33:00',
-          submitted_document: '有価証券報告書－第91期(2022/04/01－2023/03/31)',
-          reporting_period: '第91期(2022/04/01－2023/03/31)',
-        },
-        {
-          date_time_submit: '2023-08-07 13:33:00',
-          submitted_document: '有価証券報告書－第91期(2022/04/01－2023/03/31)',
-          reporting_period: '第91期(2022/04/01－2023/03/31)',
-        },
-        {
-          date_time_submit: '2023-08-07 13:33:00',
-          submitted_document: '有価証券報告書－第91期(2022/04/01－2023/03/31)',
-          reporting_period: '第91期(2022/04/01－2023/03/31)',
-        },
-        {
-          date_time_submit: '2023-08-07 13:33:00',
-          submitted_document: '有価証券報告書－第91期(2022/04/01－2023/03/31)',
-          reporting_period: '第91期(2022/04/01－2023/03/31)',
-        },
-      ],
+      data: [],
 
       loading: false,
       pagination: {
@@ -269,7 +223,11 @@ export default Vue.extend({
   },
 
   created() {
-    // this.onFetch()
+    console.log(this.$route)
+
+    this.filters.filtersByCompany = this.$route.params.id.toString()
+    this.onFetch()
+
     // this.onFetchCountry()
   },
 
@@ -277,12 +235,14 @@ export default Vue.extend({
     async onFetch() {
       try {
         this.loading = true
-        const { count, data } = await UserService.all({
+        const { count, data } = await ReportService.all({
           page: this.pagination.page,
           limit: this.ConstantsCommon.RECORD_PER_PAGE,
           sort: this.sort,
           filters: this.filters,
         })
+
+        console.log(data)
 
         this.data = data
         this.pagination.total = count
@@ -290,24 +250,6 @@ export default Vue.extend({
         this.$message.error(error.message)
       } finally {
         this.loading = false
-      }
-    },
-
-    async onFetchCountry() {
-      try {
-        const listCountry = await UserService.getAllCountry()
-        const uniqueCountries = Array.from(
-          new Set(listCountry?.map((item: { country: string }) => item.country))
-        )
-
-        this.optionsCountry = uniqueCountries?.map((item) => {
-          return {
-            value: item,
-            label: item,
-          }
-        })
-      } catch (error: any) {
-        this.$message.error(error.message)
       }
     },
 
@@ -351,25 +293,14 @@ export default Vue.extend({
       this.onFetch()
     },
 
-    handleSelectionChange(selection: Array<ProductUser>) {
+    handleSelectionChange(selection: Array<ReportModel>) {
       this.selected = selection
-    },
-
-    onProduct(id: string) {
-      this.$router.push({
-        path: this.RoutePage.PRODUCTS,
-        query: { user: id },
-      })
     },
 
     handlePickDate(value: Date[]) {
       if (value && value[0].getTime() === value[1].getTime()) {
         value[1].setHours(23, 59, 59)
       }
-    },
-
-    onDetail() {
-      this.$router.push(this.$format(this.RoutePage.PRODUCTS_DETAIL_EDIT))
     },
 
     handleSubmit(value: string) {
@@ -382,5 +313,5 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/pages/users/index.scss';
+@import '@/assets/styles/pages/companies/index.scss';
 </style>

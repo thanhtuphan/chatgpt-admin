@@ -6,7 +6,7 @@
         :size="28"
       />
 
-      <div class="the-header-user-info__name">{{ '' }}</div>
+      <div class="the-header-user-info__name">{{ 'thanhtu@picon.com' }}</div>
     </div>
 
     <el-dropdown-menu slot="dropdown" class="tw-w-[150px]">
@@ -41,7 +41,7 @@ export default Vue.extend({
     handleCommand(command: CommandType) {
       switch (command) {
         case 'profile':
-          this.$router.push(this.RoutePage.PROFILE)
+          // this.$router.push(this.RoutePage.PROFILE)
           break
 
         case 'logout':

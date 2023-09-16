@@ -38,17 +38,17 @@ export default Vue.extend({
         },
         {
           icon: 'mdi:company',
-          to: this.RoutePage.USERS,
+          to: this.RoutePage.COMPANIES,
           title: this.$t('common.sidebar.menus.companyManagement'),
         },
         {
           icon: 'material-symbols:chat-outline',
-          to: this.RoutePage.PRODUCTS,
+          to: this.RoutePage.HISTORY,
           title: this.$t('common.sidebar.menus.chatHistory'),
         },
         {
           icon: 'ant-design:setting-outlined',
-          to: this.RoutePage.NOTICES,
+          to: this.RoutePage.SETTING,
           title: this.$t('common.sidebar.menus.settingChat'),
         },
       ],

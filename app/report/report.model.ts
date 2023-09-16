@@ -3,7 +3,7 @@ import { ExcludeMethods } from '~/common/core/types'
 import { IModel } from '~/common/core/IModel'
 import { toJSON } from '~/common/utils/helper'
 
-export class UserModel implements IModel {
+export class ReportModel implements IModel {
   // id!: string
   // email!: string
   // user_name!: string
@@ -20,11 +20,11 @@ export class UserModel implements IModel {
   // updated_at!: string
   // products!: Array<ProductModel>
 
-  constructor(partial?: Partial<ExcludeMethods<UserModel>>) {
+  constructor(partial?: Partial<ExcludeMethods<ReportModel>>) {
     Object.assign(this, partial)
   }
 
   toJSON() {
-    return toJSON<UserModel>(this)
+    return toJSON<ReportModel>(this)
   }
 }

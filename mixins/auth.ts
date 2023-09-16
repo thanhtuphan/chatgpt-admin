@@ -23,7 +23,7 @@ export const AuthMixin = Vue.extend({
             name: session.user.email,
           }).toString(),
         })
-        this.$router.push(this.RoutePage.PRODUCTS)
+        // this.$router.push(this.RoutePage.PRODUCTS)
       } else {
         await this.$store.dispatch('logout')
         this.$notify.error({

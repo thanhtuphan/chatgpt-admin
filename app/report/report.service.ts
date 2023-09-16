@@ -1,11 +1,11 @@
-import { UserModel } from './user.model'
+import { ReportModel } from './report.model'
 import { ConstantsCommon } from '~/common/constants'
 import { IListQuery } from '~/common/core/IListQuery'
-import { TableName, SocialProvider } from '~/common/enums'
+import { TableName } from '~/common/enums'
 import { supabase } from '~/common/utils/supabase'
 // import { formatDateTime } from '~/common/utils/helper'
 
-const UserService = {
+const ReportService = {
   /**
    * Get all users
    * @returns
@@ -13,23 +13,29 @@ const UserService = {
   async all({
     page = 1,
     limit = ConstantsCommon.RECORD_PER_PAGE,
+    filters,
   }: IListQuery): Promise<{
-    data: UserModel[]
+    data: ReportModel[]
     count: number
   }> {
     const rangeFrom = (page - 1) * limit
     const rangeTo = page * limit - 1
 
-    const qb = supabase.from(TableName.Companies).select('*', {
-      count: 'exact',
-    })
+    console.log(filters)
+
+    const qb = supabase
+      .from(TableName.FinanceReports)
+      .select('*', {
+        count: 'exact',
+      })
+      .ilike('edinet_code', `%${filters?.filtersByCompany}%`)
 
     if (page) {
       qb.range(rangeFrom, rangeTo)
     }
 
     // if (filters?.search) {
-    //   qb.ilike('user_name', `%${filters.search}%`)
+
     // }
 
     // if (filters?.valueSelected?.length) {
@@ -71,7 +77,7 @@ const UserService = {
     //   qb.order(column, { ascending: option })
     // }
 
-    const { data, count, error } = await qb.returns<UserModel[]>()
+    const { data, count, error } = await qb.returns<ReportModel[]>()
 
     if (error) {
       console.log('UserService.all', error)
@@ -85,17 +91,17 @@ const UserService = {
   },
 
   /**
-   * Get all country of user
+   * Get all industry of company
    * @returns
    */
-  // async getAllCountry() {
+  // async getAllIndustry() {
   //   const { data, error } = await supabase
-  //     .from(TableName.Profile)
-  //     .select('country')
-  //     .order('country')
+  //     .from(TableName.Companies)
+  //     .select('submitter_industry')
+  //     .order('submitter_industry')
 
   //   if (error || !data) {
-  //     console.log('UserService.getAllCountry', error)
+  //     console.log('CompanyService.getAllIndustry', error)
   //     throw error
   //   }
 
@@ -103,12 +109,56 @@ const UserService = {
   // },
 
   /**
+   * Get all report of company
+   * @returns
+   */
+  // async getAllReport(id: string) {
+  //   const { data, error } = await supabase
+  //     .from(TableName.FinanceReports)
+  //     .select('*', {
+  //       count: 'exact',
+  //     })
+  //     .ilike('edinet_code', `%${id}%`)
+
+  //   if (error || !data) {
+  //     console.log('CompanyService.getAllReport', error)
+  //     throw error
+  //   }
+
+  //   return data
+  // },
+
+  /**
+   * Find one report by id
+   * @param id
+   * @returns
+   */
+  async findOne(id: string) {
+    console.log('id tra ve', id)
+
+    const { data, error } = await supabase
+      .from(TableName.FinanceReports)
+      .select('*')
+      .ilike('edinet_code', `%${id}%`)
+      .order('date_time_submit', { ascending: false })
+      .limit(1)
+
+    console.log('data tra ve', data)
+
+    if (error || !data) {
+      console.log('ReportService.findOne', error)
+      throw error
+    }
+
+    // return data
+  },
+  /**
    * Create a new user
    * @param user
    * @returns
    */
   create() {
-    return new UserModel()
+    return new ReportModel()
   },
 
   /**
@@ -118,7 +168,7 @@ const UserService = {
    * @returns
    */
   update() {
-    return new UserModel()
+    return new ReportModel()
   },
 
   /**
@@ -131,4 +181,4 @@ const UserService = {
   },
 }
 
-export default UserService
+export default ReportService
