@@ -130,12 +130,10 @@ const ReportService = {
 
   /**
    * Find one report by id
-   * @param id
+   * @param name
    * @returns
    */
   async findOne(id: string) {
-    console.log('id tra ve', id)
-
     const { data, error } = await supabase
       .from(TableName.FinanceReports)
       .select('*')

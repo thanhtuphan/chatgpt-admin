@@ -1,27 +1,23 @@
 <template>
-  <div class="users-page">
+  <div class="companies-page">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item class="tw-text-#8a65e3" :to="{ path: '/' }"
-        >Dashboard</el-breadcrumb-item
-      >
-      <el-breadcrumb-item :to="{ path: '/companies' }"
-        >Company Management</el-breadcrumb-item
-      >
+      <el-breadcrumb-item :to="{ path: '/' }">{{
+        $t('common.sidebar.menus.dashboard')
+      }}</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/companies' }">{{
+        $t('common.sidebar.menus.companyManagement')
+      }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1 class="tw-text-4xl tw-font-semibold tw-mt-[10px] tw-mb-[30px]">
-      Company List
+
+    <h1 class="tw-text-4xl tw-font-semibold tw-mt-[20px]">
+      {{ $t('companyPage.content.companyList') }}
     </h1>
-    <div class="tw-mb-[15px]">
-      <span>All (575)</span>
-      <span class="tw-mx-[30px]">Listed (475)</span>
-      <span>Unlisted (100)</span>
-    </div>
     <the-table
       v-loading="loading"
-      class="tw-mt-[20px]"
       :data="data"
       :pagination="pagination"
       :default-sort="defaultSort"
+      :search-placeholder="searchPlaceholder"
       @page-change="onPageChange"
       @sort-change="handleSortChange"
       @submit-form="handleSubmit"
@@ -63,6 +59,7 @@
         :label="$t('companyPage.content.stockCode')"
         min-width="130"
         prop="stock_code"
+        sortable="custom"
       />
       <el-table-column
         :label="$t('companyPage.content.industry')"
@@ -77,24 +74,17 @@
       />
       <el-table-column
         :label="$t('companyPage.content.latestReports')"
-        min-width="180"
+        min-width="120"
       >
         <template slot-scope="scope">
           <el-button
-            v-for="tag in tags"
-            :key="tag.name"
-            plain
-            :type="
-              tag.name === 'CSV'
-                ? 'success'
-                : tag.name === 'PDF'
-                ? 'danger'
-                : ''
-            "
-            class="tw-mr-1 tw-h-[37px]"
-            @click="handleClick(scope.row.edinet_code, tag.name)"
+            class="tw-m-0 tw-p-0 tw-mr-[10px] tw-border-none"
+            @click="onOpenPsd"
           >
-            {{ tag.name }}
+            <icon class="tw-text-2xl" icon="bi:filetype-psd" />
+          </el-button>
+          <el-button class="tw-m-0 tw-p-0 tw-border-none" @click="onOpenCsv">
+            <icon class="tw-text-2xl" icon="bi:filetype-csv" />
           </el-button>
         </template>
       </el-table-column>
@@ -125,13 +115,9 @@
 import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
 import { CompanyModel } from '~/app/company/company.model'
-import { SocialProvider } from '~/common/enums'
 import CompanyService from '~/app/company/company.service'
-import { ReportModel } from '~/app/report/report.model'
+// import { ReportModel } from '~/app/report/report.model'
 import ReportService from '~/app/report/report.service'
-
-// import ProductService from '~/app/product/product.service'
-// import CompanyService from '~/app/company/company.service'
 
 interface ValueProps {
   value: string
@@ -165,7 +151,6 @@ interface DataProps {
     option: boolean
   } | null
   selected: Array<CompanyModel>
-  optionsSelected: Array<ValueProps>
   optionsIndustry: Array<ValueProps>
   pickerOptions: {
     disabledDate: (time: Date) => boolean
@@ -173,10 +158,14 @@ interface DataProps {
   filters: FilterProps
   tags: Array<tagProps>
   listReport: any
+  activeClass: string
+  total: number
+  selectedReport: string
+  searchPlaceholder: string
 }
 
 export default Vue.extend({
-  name: 'UsersPage',
+  name: 'CompaniesPage',
 
   data(): DataProps {
     return {
@@ -196,21 +185,6 @@ export default Vue.extend({
         column: 'created_at',
         option: false,
       },
-
-      optionsSelected: [
-        {
-          value: SocialProvider.Facebook,
-          label: SocialProvider.Facebook,
-        },
-        {
-          value: SocialProvider.Instagram,
-          label: SocialProvider.Instagram,
-        },
-        {
-          value: SocialProvider.Twitter,
-          label: SocialProvider.Twitter,
-        },
-      ],
 
       optionsIndustry: [],
       pickerOptions: {
@@ -233,6 +207,12 @@ export default Vue.extend({
       ],
 
       listReport: [],
+      activeClass: '',
+      total: 0,
+      selectedReport: 'all',
+      searchPlaceholder: this.$t(
+        'common.placeholderFields.searchList'
+      ).toString(),
     }
   },
 
@@ -258,6 +238,10 @@ export default Vue.extend({
           filters: this.filters,
         })
 
+        console.log(data)
+
+        console.log('count', count)
+        this.total = count
         this.data = data
         this.pagination.total = count
       } catch (error: any) {
@@ -267,19 +251,19 @@ export default Vue.extend({
       }
     },
 
-    async findReport(id: any) {
-      try {
-        const report = await ReportService.findOne(id)
+    // async findReport(id: any) {
+    //   try {
+    //     const report = await ReportService.findOne(id)
 
-        console.log(report)
+    //     console.log(report)
 
-        return {
-          report,
-        }
-      } catch (error: any) {
-        this.$message.error(error.message)
-      }
-    },
+    //     return {
+    //       report,
+    //     }
+    //   } catch (error: any) {
+    //     this.$message.error(error.message)
+    //   }
+    // },
 
     // async onFetchIndustry() {
     //   try {
@@ -309,30 +293,6 @@ export default Vue.extend({
       this.onFetch()
     },
 
-    openSocialMedia(id: string, platform: string) {
-      let url: string | null = null
-
-      switch (platform) {
-        case SocialProvider.Instagram:
-          url = this.ConstantsCommon.SOCIAL_NETWORK_URL.INSTAGRAM_URL + id
-          break
-
-        case SocialProvider.Facebook:
-          url = this.ConstantsCommon.SOCIAL_NETWORK_URL.FACEBOOK_URL + id
-          break
-
-        case SocialProvider.Twitter:
-          url = this.ConstantsCommon.SOCIAL_NETWORK_URL.TWITTER_URL + id
-          break
-
-        default:
-          break
-      }
-      if (url) {
-        window.open(url, '_blank')
-      }
-    },
-
     handleSortChange({ prop, order }: { prop: string; order: string }) {
       this.sort =
         order !== null
@@ -355,9 +315,11 @@ export default Vue.extend({
     },
 
     onDetail(id: string) {
-      this.$router.push(
-        this.$format(this.RoutePage.COMPANIES_DETAIL_EDIT, { id })
-      )
+      console.log(name, id)
+
+      console.log(this.$route)
+
+      this.$router.push(this.$format(this.RoutePage.COMPANIES_DETAIL, { id }))
     },
 
     handleClick(id: any, type: any) {
@@ -372,6 +334,10 @@ export default Vue.extend({
       this.filters.valueDatePicker = this.filters.valueDatePicker || []
       this.onFetch()
     },
+
+    onOpenPsd() {},
+
+    onOpenCsv() {},
   },
 })
 </script>

@@ -11,7 +11,13 @@
       "industry": "Industry",
       "latestReports": "Latest Report",
       "capital": "Capital",
-      "corporateNumber": "Corporate Number"
+      "corporateNumber": "Corporate Number",
+      "companyList": "Company List",
+      "all": "All",
+      "listed": "Listed",
+      "unListed": "Unlisted",
+      "psd": "PSD",
+      "csv": "CSV"
     }
   },
   "companyDetailPage": {
@@ -20,7 +26,20 @@
       "nameDocument": "Report Name",
       "reportingPeriod": "Reporting Period",
       "dateSubmit": "Date Submit",
-      "report": "Report"
+      "report": "Report",
+      "englishName": "English Name:",
+      "overview": "Overview:",
+      "stockCode": "Stock code: ",
+      "corporateNumber": "Corporate number: ",
+      "location": "Location: ",
+      "companyType": "Company type: ",
+      "capital": "Capital: ",
+      "companyIndustry": "Company Industry: ",
+      "submitterName": "Submitter name: ",
+      "unListed": "Unlisted",
+      "createReport": "Upload And Create New Reports",
+      "editReport": "Upload And Edit Reports",
+      "or": "Or"
     }
   },
   "chatPage": {
@@ -73,7 +92,10 @@
       "active": "Active",
       "product": "Product",
       "search": "Search",
-      "detail": "Detail"
+      "detail": "Detail",
+      "clickToUpload": " Click to upload",
+      "dropFile": "Drop file here or",
+      "upload": "Upload"
     },
     "fields": {
       "email": "Email",
@@ -128,12 +150,14 @@
       "addSuccess": "Add successfully."
     },
     "placeholderFields": {
-      "tableSearch": "Search Name, Stock Code",
+      "searchList": "Search Name, Stock Code",
+      "searchDetail": "Search Report Name",
       "startPeriod": "Start date Submit",
       "endPeriod": "End date Submit",
       "industrySelect": "Select Industry",
       "documentSelect": "Select Name Document",
-      "countrySelect": "Select Country"
+      "countrySelect": "Select Country",
+      "inputFile": "Input the URLs of the psd/csv files"
     }
   },
   "noticesPage": {

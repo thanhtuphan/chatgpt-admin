@@ -1,5 +1,12 @@
 <template>
-  <div>chat history</div>
+  <el-breadcrumb separator="/">
+    <el-breadcrumb-item :to="{ path: '/' }">{{
+      $t('common.sidebar.menus.dashboard')
+    }}</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/history' }">{{
+      $t('common.sidebar.menus.chatHistory')
+    }}</el-breadcrumb-item>
+  </el-breadcrumb>
 </template>
 
 <script lang="ts">

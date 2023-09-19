@@ -32,7 +32,11 @@ export default Vue.extend({
 
   computed: {
     isActive() {
-      return this.$route.path === this.to
+      if (this.to === '/') {
+        return this.$route.path === this.to
+      } else {
+        return this.$route.path.includes(this.to)
+      }
     },
   },
 })

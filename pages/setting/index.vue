@@ -1,5 +1,12 @@
 <template>
-  <div>chat setting</div>
+  <el-breadcrumb separator="/">
+    <el-breadcrumb-item :to="{ path: '/' }">{{
+      $t('common.sidebar.menus.dashboard')
+    }}</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ path: '/setting' }">{{
+      $t('common.sidebar.menus.settingChat')
+    }}</el-breadcrumb-item>
+  </el-breadcrumb>
 </template>
 
 <script lang="ts">

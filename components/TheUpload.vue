@@ -1,5 +1,10 @@
 <template>
-  <el-upload class="the-upload" v-bind="$attrs" v-on="$listeners">
+  <el-upload
+    class="the-upload"
+    list-type="text"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
     <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
     <template
       v-for="(_, name) in $scopedSlots"

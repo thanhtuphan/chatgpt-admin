@@ -7,7 +7,7 @@
         clearable
         size="small"
         :debounce="300"
-        :placeholder="$t('common.placeholderFields.tableSearch')"
+        :placeholder="searchPlaceholder"
       />
       <slot name="toolbar-filter" />
       <el-button
@@ -72,6 +72,11 @@ export default Vue.extend({
       required: false,
 
       default: null,
+    },
+
+    searchPlaceholder: {
+      type: String,
+      default: '',
     },
   },
 

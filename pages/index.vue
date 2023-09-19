@@ -12,6 +12,10 @@ export default Vue.extend({
       title: this.$t('homePage.title').toString(),
     }
   },
+
+  mounted() {
+    console.log(this.$route)
+  },
 })
 </script>
 

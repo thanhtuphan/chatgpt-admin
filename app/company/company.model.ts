@@ -4,21 +4,20 @@ import { IModel } from '~/common/core/IModel'
 import { toJSON } from '~/common/utils/helper'
 
 export class CompanyModel implements IModel {
-  // id!: string
-  // email!: string
-  // user_name!: string
-  // name!: string
-  // country!: string
-  // avatar_url!: string
-  // description?: string
-  // user_id!: string
-  // instagram_id?: string
-  // facebook_id?: string
-  // twitter_id?: string
-  // cover_photo_url!: string
-  // created_at!: string
-  // updated_at!: string
-  // products!: Array<ProductModel>
+  edinet_code!: string
+  created_at!: string
+  submitter_type!: string
+  field_distinction!: string
+  connect!: string
+  capital!: number
+  closing_date?: string
+  proposer_name!: string
+  proposer_name_english?: string
+  submitter_name?: string
+  location?: string
+  submitter_industry!: string
+  stock_code!: number
+  submitter_corporate_number!: number
 
   constructor(partial?: Partial<ExcludeMethods<CompanyModel>>) {
     Object.assign(this, partial)

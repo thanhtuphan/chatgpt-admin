@@ -6,7 +6,11 @@ export const AUTH_CALLBACK = '/auth/callback'
 
 export const COMPANIES = '/companies'
 
-export const COMPANIES_DETAIL_EDIT = '/companies/{id}/edit'
+export const COMPANIES_DETAIL = '/companies/{id}/detail'
+
+export const COMPANIES_REPORT_EDIT = '/companies/{id}/detail/{id}/edit'
+
+export const COMPANIES_REPORT_ADD = '/companies/{id}/detail/add'
 
 export const HISTORY = '/history'
 

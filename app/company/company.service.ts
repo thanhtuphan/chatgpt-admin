@@ -28,7 +28,13 @@ const CompanyService = {
 
     console.log(sort)
 
+    if (filters?.filtersByCompany) {
+      qb.ilike('edinet_code', `%${filters?.filtersByCompany}%`)
+    }
+
     if (page) {
+      console.log(page)
+
       qb.range(rangeFrom, rangeTo)
     }
 
