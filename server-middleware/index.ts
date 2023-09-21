@@ -1,24 +1,16 @@
-import bodyParser from 'body-parser'
-import cookieParser from 'cookie-parser'
+// import bodyParser from 'body-parser'
+// import cookieParser from 'cookie-parser'
+// import express from 'express'
+// import fileUpload from 'express-fileupload'
+// import { initStorage } from './storage'
 
-import { createClient } from '@supabase/supabase-js'
-import express from 'express'
-import fileUpload from 'express-fileupload'
-import { initStorage } from './storage'
+// const app = express()
 
-const app = express()
+// app.use(bodyParser.json())
+// app.use(cookieParser())
+// app.use(fileUpload())
 
-const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SERVICE_ROLE || ''
-)
+// // Init products routes
 
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.use(fileUpload())
-
-// Init products routes
-initStorage(app, supabase)
-
-// Init notices routes
-export default app
+// // Init notices routes
+// export default app

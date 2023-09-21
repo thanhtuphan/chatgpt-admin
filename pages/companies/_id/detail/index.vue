@@ -206,7 +206,7 @@
             class="tw-m-0 tw-p-0 tw-mr-[10px] tw-border-none"
             @click="onOpenPsd(scope.row.pdf_url)"
           >
-            <icon class="tw-text-2xl" icon="bi:filetype-psd" />
+            <icon class="tw-text-2xl" icon="bi:filetype-pdf" />
           </el-button>
           <el-button
             v-if="scope.row.csv_name"
@@ -243,8 +243,6 @@ import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
 import { ReportModel } from '~/app/report/report.model'
 import { SocialProvider } from '~/common/enums'
-import ReportService from '~/app/report/report.service'
-import CompanyService from '~/app/company/company.service'
 import { CompanyModel } from '~/app/company/company.model'
 
 interface ValueProps {
@@ -383,52 +381,52 @@ export default Vue.extend({
 
   created() {
     this.filters.filtersByCompany = this.$route.params.id.toString()
-    this.onFetch()
-    this.onfindCompany()
+    // this.onFetch()
+    // this.onfindCompany()
   },
 
   methods: {
-    async onFetch() {
-      try {
-        this.loading = true
-        const { count, data } = await ReportService.all({
-          page: this.pagination.page,
-          limit: this.ConstantsCommon.RECORD_PER_PAGE,
-          sort: this.sort,
-          filters: this.filters,
-        })
+    // async onFetch() {
+    //   try {
+    //     this.loading = true
+    //     const { count, data } = await ReportService.all({
+    //       page: this.pagination.page,
+    //       limit: this.ConstantsCommon.RECORD_PER_PAGE,
+    //       sort: this.sort,
+    //       filters: this.filters,
+    //     })
 
-        this.data = data
-        this.pagination.total = count
-      } catch (error: any) {
-        this.$message.error(error.message)
-      } finally {
-        this.loading = false
-      }
-    },
+    //     this.data = data
+    //     this.pagination.total = count
+    //   } catch (error: any) {
+    //     this.$message.error(error.message)
+    //   } finally {
+    //     this.loading = false
+    //   }
+    // },
 
-    async onfindCompany() {
-      try {
-        this.loading = true
-        const { count, data } = await CompanyService.all({
-          page: this.pagination.page,
-          limit: this.ConstantsCommon.RECORD_PER_PAGE,
-          sort: this.sort,
-          filters: this.filters,
-        })
+    // async onfindCompany() {
+    //   try {
+    //     this.loading = true
+    //     const { count, data } = await CompanyService.all({
+    //       page: this.pagination.page,
+    //       limit: this.ConstantsCommon.RECORD_PER_PAGE,
+    //       sort: this.sort,
+    //       filters: this.filters,
+    //     })
 
-        this.dataCompany = data
-        this.pagination.total = count
-      } catch (error: any) {
-        this.$message.error(error.message)
-      } finally {
-        this.loading = false
-      }
-    },
+    //     this.dataCompany = data
+    //     this.pagination.total = count
+    //   } catch (error: any) {
+    //     this.$message.error(error.message)
+    //   } finally {
+    //     this.loading = false
+    //   }
+    // },
 
     onPageChange(page: number) {
       this.pagination.page = page
-      this.onFetch()
+      // this.onFetch()
     },
 
     openSocialMedia(id: string, platform: string) {
@@ -463,7 +461,7 @@ export default Vue.extend({
               option: order === 'ascending',
             }
           : null
-      this.onFetch()
+      // this.onFetch()
     },
 
     handleSelectionChange(selection: Array<ReportModel>) {
@@ -547,15 +545,15 @@ export default Vue.extend({
     },
 
     handleUpload() {
-      if (this.dialog.urlImport) {
-      }
+      // if (this.dialog.urlImport) {
+      // }
       this.dialog.listReport = this.dialog.urlImport
     },
 
     handleSubmit(value: string) {
       this.filters.search = value
       this.filters.valueDatePicker = this.filters.valueDatePicker || []
-      this.onFetch()
+      // this.onFetch()
     },
   },
 })

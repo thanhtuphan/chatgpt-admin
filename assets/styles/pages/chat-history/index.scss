@@ -1,0 +1,36 @@
+.history-page {
+  margin-top: -20px;
+  margin-right: -20px;
+  margin-bottom: -20px;
+  .wrapper-chat {
+    &__list-user {
+      padding-right: 20px;
+      border-right: 1px solid #d1d5db;
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+      ::v-deep .el-card__body {
+        display: flex;
+        gap: 10px;
+      }
+      .el-card {
+        &:hover {
+          background-color: theme('colors.gray.100');
+        }
+      }
+    }
+    &__content {
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+      ::v-deep .el-card__body {
+        display: flex;
+        gap: 10px;
+      }
+      .avatar {
+        border-bottom: 1px solid #d1d5db;
+      }
+      .active {
+        background-color: theme('colors.gray.100');
+      }
+    }
+  }
+}

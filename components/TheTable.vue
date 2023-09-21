@@ -92,7 +92,7 @@ export default Vue.extend({
     },
 
     onSubmit() {
-      this.$emit('submit-form', this.search)
+      this.$emit('search-change', this.search)
     },
   },
 })

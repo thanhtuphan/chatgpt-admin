@@ -1,23 +1,25 @@
-// import { ProductModel } from '../product/product.model'
 import { ExcludeMethods } from '~/common/core/types'
 import { IModel } from '~/common/core/IModel'
 import { toJSON } from '~/common/utils/helper'
 
 export class CompanyModel implements IModel {
+  id!: number
   edinet_code!: string
-  created_at!: string
-  submitter_type!: string
-  field_distinction!: string
-  connect!: string
-  capital!: number
+  time_created!: string
+  sub_industry?: string
+  time_updated?: string
+  sub_corporate_number?: number
+  sub_type?: string
+  connect?: string
   closing_date?: string
-  proposer_name!: string
-  proposer_name_english?: string
-  submitter_name?: string
-  location?: string
-  submitter_industry!: string
-  stock_code!: number
-  submitter_corporate_number!: number
+  en_name?: string
+  direction?: string
+  stock_code?: number
+  field_distinction?: string
+  capital_stock?: number
+  latest_date_time_sub?: string
+  jp_name?: string
+  sub_name?: string
 
   constructor(partial?: Partial<ExcludeMethods<CompanyModel>>) {
     Object.assign(this, partial)

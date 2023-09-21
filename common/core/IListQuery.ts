@@ -1,15 +1,11 @@
 export interface IListQuery {
   page?: number
-  limit?: number
   sort?: {
-    column: string
-    option: boolean
-  } | null
+    sorted: string
+    sortType: string
+  }
   filters?: {
-    search: string
-    filtersByCompany?: string
+    search?: string
     valueSelected?: string[]
-    valueSelectedCountry?: string[]
-    valueDatePicker?: Date[]
   }
 }

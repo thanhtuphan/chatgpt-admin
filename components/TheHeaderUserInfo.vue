@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { User } from '@supabase/supabase-js'
+// import { User } from '@supabase/supabase-js'
 import Vue from 'vue'
 
 type CommandType = 'profile' | 'logout'
@@ -32,9 +32,9 @@ export default Vue.extend({
   name: 'TheHeaderUserInfo',
 
   computed: {
-    user(): User {
-      return this.$store.state.auth.user
-    },
+    // user(): User {
+    //   return this.$store.state.auth.user
+    // },
   },
 
   methods: {

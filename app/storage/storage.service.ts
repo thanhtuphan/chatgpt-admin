@@ -1,26 +1,25 @@
-import { v4 as uuid } from 'uuid'
-import { supabase } from '~/common/utils/supabase'
+// import { v4 as uuid } from 'uuid'
 
-const StorageService = {
-  async upload(file: File, path: string) {
-    const fileId = uuid()
+// const StorageService = {
+//   async upload(file: File, path: string) {
+//     const fileId = uuid()
 
-    const { error } = await supabase.storage.from(path).upload(fileId, file, {
-      upsert: true,
-    })
+//     const { error } = await supabase.storage.from(path).upload(fileId, file, {
+//       upsert: true,
+//     })
 
-    if (error) {
-      console.log('StorageService.upload', error)
-      throw error
-    }
+//     if (error) {
+//       console.log('StorageService.upload', error)
+//       throw error
+//     }
 
-    const { data } = supabase.storage.from(path).getPublicUrl(fileId)
+//     const { data } = supabase.storage.from(path).getPublicUrl(fileId)
 
-    return {
-      url: data.publicUrl,
-      id: fileId,
-    }
-  },
-}
+//     return {
+//       url: data.publicUrl,
+//       id: fileId,
+//     }
+//   },
+// }
 
-export default StorageService
+// export default StorageService

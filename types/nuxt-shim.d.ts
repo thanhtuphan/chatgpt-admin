@@ -2,7 +2,6 @@ import { LoDashStatic } from 'lodash'
 import format from 'string-format'
 import numeral from 'numeral'
 import { NuxtCookies } from 'cookie-universal-nuxt'
-import { SupabaseClient } from '@supabase/supabase-js'
 import { ConstantsCommon, RoutePage } from '~/common/constants'
 import * as Utils from '~/common/utils'
 import * as Enums from '~/common/enums'
@@ -16,7 +15,6 @@ interface NuxtBase {
   $cookies: NuxtCookies
   RoutePage: typeof RoutePage
   Enums: typeof Enums
-  $supabase: SupabaseClient<any, 'public', any>
 }
 
 declare module 'vue/types/vue' {

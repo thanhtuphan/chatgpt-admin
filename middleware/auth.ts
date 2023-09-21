@@ -1,7 +1,6 @@
 import { Middleware } from '@nuxt/types'
 import AuthService from '~/app/auth/auth.service'
 import { Role } from '~/common/enums'
-import { supabase } from '~/common/utils/supabase'
 
 const auth: Middleware = async ({
   redirect,

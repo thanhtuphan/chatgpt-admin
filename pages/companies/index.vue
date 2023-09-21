@@ -20,13 +20,13 @@
       :search-placeholder="searchPlaceholder"
       @page-change="onPageChange"
       @sort-change="handleSortChange"
-      @submit-form="handleSubmit"
+      @search-change="handleSearchChange"
       @selection-change="handleSelectionChange"
     >
       <template #toolbar-filter>
         <el-select
-          v-model="filters.valueSelected"
-          class="the-toolbar__social-select"
+          v-model="valueSelected"
+          class="the-toolbar__industry-select"
           size="small"
           multiple
           collapse-tags
@@ -46,14 +46,12 @@
       <el-table-column
         :label="$t('companyPage.content.name')"
         min-width="250"
-        prop="proposer_name"
-        sortable="custom"
+        prop="jp_name"
       />
       <el-table-column
         :label="$t('companyPage.content.nameEnglish')"
         min-width="250"
-        prop="proposer_name_english"
-        sortable="custom"
+        prop="en_name"
       />
       <el-table-column
         :label="$t('companyPage.content.stockCode')"
@@ -64,12 +62,12 @@
       <el-table-column
         :label="$t('companyPage.content.industry')"
         min-width="120"
-        prop="submitter_industry"
+        prop="sub_industry"
       />
       <el-table-column
         :label="$t('companyPage.content.capital')"
-        min-width="100"
-        prop="capital"
+        min-width="150"
+        prop="capital_stock"
         sortable="custom"
       />
       <el-table-column
@@ -78,12 +76,17 @@
       >
         <template slot-scope="scope">
           <el-button
+            v-if="scope.row.pdf_url"
             class="tw-m-0 tw-p-0 tw-mr-[10px] tw-border-none"
-            @click="onOpenPsd"
+            @click="handleOpenPdf(scope.row.pdf_url)"
           >
-            <icon class="tw-text-2xl" icon="bi:filetype-psd" />
+            <icon class="tw-text-2xl" icon="bi:filetype-pdf" />
           </el-button>
-          <el-button class="tw-m-0 tw-p-0 tw-border-none" @click="onOpenCsv">
+          <el-button
+            v-if="scope.row.csv_name"
+            class="tw-m-0 tw-p-0 tw-border-none"
+            @click="handleOpenCsv(scope.row.csv_url)"
+          >
             <icon class="tw-text-2xl" icon="bi:filetype-csv" />
           </el-button>
         </template>
@@ -91,7 +94,7 @@
       <el-table-column
         :label="$t('companyPage.content.corporateNumber')"
         min-width="180"
-        prop="submitter_corporate_number"
+        prop="sub_corporate_number"
       />
       <el-table-column
         fixed="right"
@@ -116,52 +119,36 @@ import Vue from 'vue'
 import { MetaInfo } from 'vue-meta'
 import { CompanyModel } from '~/app/company/company.model'
 import CompanyService from '~/app/company/company.service'
-// import { ReportModel } from '~/app/report/report.model'
-import ReportService from '~/app/report/report.service'
 
 interface ValueProps {
   value: string
   label: string
 }
 
-interface tagProps {
-  name: string
-  type: string
-}
-
 interface FilterProps {
   search: string
   valueSelected: string[]
-  valueSelectedCountry: string[]
-  valueDatePicker: Date[]
 }
 
-interface DataModel {}
-
 interface DataProps {
-  data: Array<DataModel>
+  data: Array<CompanyModel>
   loading: boolean
   pagination: {
     page: number
     total: number
   }
-  defaultSort: Record<string, string>
   sort: {
-    column: string
-    option: boolean
-  } | null
+    sorted: string
+    sortType: string
+  }
+  defaultSort: Record<string, string>
   selected: Array<CompanyModel>
   optionsIndustry: Array<ValueProps>
-  pickerOptions: {
-    disabledDate: (time: Date) => boolean
-  }
   filters: FilterProps
-  tags: Array<tagProps>
   listReport: any
-  activeClass: string
-  total: number
   selectedReport: string
   searchPlaceholder: string
+  valueSelected: string[]
 }
 
 export default Vue.extend({
@@ -177,42 +164,30 @@ export default Vue.extend({
         total: 0,
       },
 
+      sort: {
+        sorted: '',
+        sortType: '',
+      },
+
       defaultSort: {
         created_at: 'ascending',
       },
 
-      sort: {
-        column: 'created_at',
-        option: false,
-      },
-
       optionsIndustry: [],
-      pickerOptions: {
-        disabledDate(time: Date) {
-          return time.getTime() > Date.now()
-        },
-      },
 
       selected: [],
       filters: {
         search: '',
         valueSelected: [],
-        valueSelectedCountry: [],
-        valueDatePicker: [],
       },
 
-      tags: [
-        { name: 'CSV', type: 'success' },
-        { name: 'PDF', type: 'success' },
-      ],
-
       listReport: [],
-      activeClass: '',
-      total: 0,
       selectedReport: 'all',
       searchPlaceholder: this.$t(
         'common.placeholderFields.searchList'
       ).toString(),
+
+      valueSelected: [],
     }
   },
 
@@ -224,26 +199,21 @@ export default Vue.extend({
 
   created() {
     this.onFetch()
-    // this.onFetchIndustry()
+    this.getAllIndustries()
   },
 
   methods: {
     async onFetch() {
       try {
         this.loading = true
-        const { count, data } = await CompanyService.all({
+        const { data, total } = await CompanyService.all({
           page: this.pagination.page,
-          limit: this.ConstantsCommon.RECORD_PER_PAGE,
           sort: this.sort,
           filters: this.filters,
         })
 
-        console.log(data)
-
-        console.log('count', count)
-        this.total = count
         this.data = data
-        this.pagination.total = count
+        this.pagination.total = total
       } catch (error: any) {
         this.$message.error(error.message)
       } finally {
@@ -251,42 +221,22 @@ export default Vue.extend({
       }
     },
 
-    // async findReport(id: any) {
-    //   try {
-    //     const report = await ReportService.findOne(id)
+    async getAllIndustries() {
+      try {
+        const { data } = await CompanyService.getAllIndustries()
 
-    //     console.log(report)
-
-    //     return {
-    //       report,
-    //     }
-    //   } catch (error: any) {
-    //     this.$message.error(error.message)
-    //   }
-    // },
-
-    // async onFetchIndustry() {
-    //   try {
-    //     const listIndustry = await CompanyService.getAllIndustry()
-
-    //     // console.log(listIndustry)
-
-    //     const uniqueIndustry = Array.from(
-    //       new Set(listIndustry?.map((item: any) => item.submitter_industry))
-    //     )
-
-    //     // console.log(uniqueIndustry)
-
-    //     this.optionsIndustry = uniqueIndustry?.map((item) => {
-    //       return {
-    //         value: item,
-    //         label: item,
-    //       }
-    //     })
-    //   } catch (error: any) {
-    //     this.$message.error(error.message)
-    //   }
-    // },
+        this.optionsIndustry = data?.map((item: string) => {
+          return {
+            value: item,
+            label: item,
+          }
+        })
+      } catch (error: any) {
+        this.$message.error(error.message)
+      } finally {
+        this.loading = false
+      }
+    },
 
     onPageChange(page: number) {
       this.pagination.page = page
@@ -294,13 +244,17 @@ export default Vue.extend({
     },
 
     handleSortChange({ prop, order }: { prop: string; order: string }) {
-      this.sort =
-        order !== null
-          ? {
-              column: prop,
-              option: order === 'ascending',
-            }
-          : null
+      if (order) {
+        this.sort = {
+          sorted: prop,
+          sortType: order,
+        }
+      } else {
+        this.sort = {
+          sorted: '',
+          sortType: '',
+        }
+      }
       this.onFetch()
     },
 
@@ -324,20 +278,21 @@ export default Vue.extend({
 
     handleClick(id: any, type: any) {
       console.log('hahah', id, type)
-      this.findReport(id).then((data) => {
-        console.log('data tra ve ..............', data)
-      })
     },
 
-    handleSubmit(value: string) {
+    handleSearchChange(value: string) {
       this.filters.search = value
-      this.filters.valueDatePicker = this.filters.valueDatePicker || []
+      this.filters.valueSelected = this.valueSelected
       this.onFetch()
     },
 
-    onOpenPsd() {},
+    handleOpenPdf(url: string) {
+      window.open(url)
+    },
 
-    onOpenCsv() {},
+    handleOpenCsv(url: string) {
+      window.open(url)
+    },
   },
 })
 </script>

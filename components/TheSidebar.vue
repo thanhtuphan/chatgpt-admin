@@ -43,7 +43,7 @@ export default Vue.extend({
         },
         {
           icon: 'material-symbols:chat-outline',
-          to: this.RoutePage.HISTORY,
+          to: this.RoutePage.CHAT_HISTORY,
           title: this.$t('common.sidebar.menus.chatHistory'),
         },
         {

@@ -1,7 +1,6 @@
 import { CreateAdminUserDto } from './dto/create-admin-user.dto'
 import { IListQuery } from '~/common/core/IListQuery'
 import { $axios } from '~/common/utils/axios'
-import { supabase } from '~/common/utils/supabase'
 
 const prefix = '/admin-users'
 
@@ -10,20 +9,20 @@ const AdminUserService = {
    *
    * @returns
    */
-  async all({ filters }: IListQuery) {
-    const { data, error } = await supabase.rpc('get_admin_users', {
-      search: filters?.search,
-    })
+  // async all({ filters }: IListQuery) {
+  //   const { data, error } = await supabase.rpc('get_admin_users', {
+  //     search: filters?.search,
+  //   })
 
-    if (error) {
-      console.log('AdminUserService.all', error)
-      throw error
-    }
+  //   if (error) {
+  //     console.log('AdminUserService.all', error)
+  //     throw error
+  //   }
 
-    return {
-      data: data || [],
-    }
-  },
+  //   return {
+  //     data: data || [],
+  //   }
+  // },
 
   async create(payload: CreateAdminUserDto) {
     const {

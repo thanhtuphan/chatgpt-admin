@@ -44,7 +44,6 @@ const config: NuxtConfig = {
     '@/plugins/iconify',
     '@/plugins/axios',
     '@/plugins/vue-frag',
-    '@/plugins/supabase',
     '@/plugins/filter',
     '@/plugins/vue-debounce',
   ],
@@ -143,8 +142,6 @@ const config: NuxtConfig = {
   publicRuntimeConfig: {
     locale: process.env.LOCALE || LOCALE,
     baseApiUrl: process.env.BASE_API_URL,
-    supabaseUrl: process.env.SUPABASE_URL,
-    publicAnonKey: process.env.PUBLIC_ANON_KEY,
   },
 }
 

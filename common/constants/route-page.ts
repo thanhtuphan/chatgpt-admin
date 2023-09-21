@@ -12,7 +12,7 @@ export const COMPANIES_REPORT_EDIT = '/companies/{id}/detail/{id}/edit'
 
 export const COMPANIES_REPORT_ADD = '/companies/{id}/detail/add'
 
-export const HISTORY = '/history'
+export const CHAT_HISTORY = '/chat-history'
 
 export const SETTING = '/setting'
 

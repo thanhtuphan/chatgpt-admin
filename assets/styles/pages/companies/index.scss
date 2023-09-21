@@ -25,7 +25,7 @@
       min-width: 240px;
     }
 
-    &__social-select {
+    &__industry-select {
       min-width: 200px;
     }
 
@@ -36,7 +36,7 @@
     @include bp('sm') {
       flex-flow: wrap;
       justify-content: center;
-      &__social-select,
+      &__industry-select,
       &__country-select,
       &__date-picker,
       &__search-input {

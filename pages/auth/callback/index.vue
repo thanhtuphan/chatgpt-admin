@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="auth-callback-page">
     {{ $t('authCallbackPage.content.redirect') }}
   </div>
@@ -48,4 +48,4 @@ export default AuthMixin.extend({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/pages/auth/callback/index.scss';
-</style>
+</style> -->
